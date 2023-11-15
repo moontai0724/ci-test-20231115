@@ -1,0 +1,23 @@
+name: build and publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # NOTE for forks: if your Docker Hub organization doesn't match your Github repo's,
+          # then the use of ${{ github.repository_owner }} will need to be replaced.
+          images: _/node
+          tags: |
+            # For the "main" variant, it gets the tag as-is, without suffix
+            type=ref,event=tag,enable=slim
